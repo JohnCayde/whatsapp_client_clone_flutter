@@ -32,6 +32,14 @@ class _TabSwitchState extends State<TabSwitch>
   late TabController _tabController;
   int _selectedIndex = 1;
 
+  final List<String> friends = <String>[
+    "John",
+    "Steven",
+    "Brad",
+    "Bradyden",
+    "Stevensen"
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -143,6 +151,12 @@ class _TabSwitchState extends State<TabSwitch>
               StatusList(),
               CallList()
             ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.message_rounded),
+            onPressed: () {
+              Navigator.of(context).pushNamed("/contact");
+            },
           ),
         ));
   }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/pages/help.dart';
 import 'pages/home.dart';
 import 'pages/setting.dart';
 import 'pages/status_privacy.dart';
 import 'pages/linked_device.dart';
 import 'pages/starred_message.dart';
+import 'pages/address_book.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -34,6 +36,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const StatusPrivacy());
       case '/setting':
         return MaterialPageRoute(builder: (_) => const Setting());
+      case '/contact':
+        return MaterialPageRoute(builder: (_) => const AddressBook());
+      case '/help':
+        return MaterialPageRoute(builder: (_) => const Help());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

@@ -29,6 +29,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sqflite:
+  path:
+  contacts_service: ^0.6.3
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -51,7 +55,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  plugin:
+      androidPackage: com.ethras.simplepermissions
+      pluginClass: SimplePermissionsPlugin
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
