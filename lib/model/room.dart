@@ -3,7 +3,7 @@ const String tableName = "messages";
 class FieldNames {
   static const id = "_id";
   static const name = "name";
-  static const profileImage = "profileImage";
+  static const profileImage = "profile_image";
   static const description = "description";
   static const lastUpdated = "last_updated";
 

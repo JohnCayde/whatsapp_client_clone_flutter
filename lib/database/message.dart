@@ -12,7 +12,7 @@ class MessageDb {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('message.db');
+    _database = await _initDB('messages.db');
     return _database!;
   }
 
@@ -31,11 +31,12 @@ class MessageDb {
 
     await db.execute('''CREATE TABLE $tableName ( 
         ${FieldNames.id} $idType, 
+        ${FieldNames.roomId} $integerType, 
         ${FieldNames.message} $textType, 
         ${FieldNames.sequence} $integerType, 
         ${FieldNames.sender} $integerType,
         ${FieldNames.status} $integerType, 
-        ${FieldNames.sentDate} $textType, ''');
+        ${FieldNames.sentDate} $textType) ''');
   }
 
   Future<Message> create(Message message) async {
@@ -58,6 +59,18 @@ class MessageDb {
     } else {
       throw Exception('ID $id not found');
     }
+  }
+
+  Future<List<Message>> findAll(int roomId) async {
+    final db = await instance.database;
+
+    final maps = await db.query(tableName,
+        columns: FieldNames.values,
+        where: '${FieldNames.roomId} = ?',
+        whereArgs: [roomId],
+        orderBy: '${FieldNames.sequence} ASC');
+
+    return maps.map((e) => Message.fromJson(e)).toList();
   }
 
   Future close() async {

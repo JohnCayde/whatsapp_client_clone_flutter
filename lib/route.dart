@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/model/room.dart';
 import 'package:todoapp/pages/help.dart';
+import 'package:todoapp/pages/room.dart';
 import 'pages/home.dart';
 import 'pages/setting.dart';
 import 'pages/status_privacy.dart';
@@ -10,7 +12,7 @@ import 'pages/address_book.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
-    // final args = settings.arguments;
+    final args = settings.arguments;
 
     switch (settings.name) {
       case '/':
@@ -40,6 +42,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const AddressBook());
       case '/help':
         return MaterialPageRoute(builder: (_) => const Help());
+      case '/room':
+        if (args is Room) {
+          return MaterialPageRoute(builder: (_) => ChatRoom(room: args));
+        }
+        return _errorRoute();
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

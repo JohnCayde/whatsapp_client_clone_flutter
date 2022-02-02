@@ -34,7 +34,7 @@ class RoomDb {
         ${FieldNames.name} $textType, 
         ${FieldNames.profileImage} $textType, 
         ${FieldNames.description} $textType,
-        ${FieldNames.lastUpdated} $textType, ''');
+        ${FieldNames.lastUpdated} $textType) ''');
   }
 
   Future<Room> create(Room room) async {
@@ -57,6 +57,13 @@ class RoomDb {
     } else {
       throw Exception('ID $id not found');
     }
+  }
+
+  Future<List<Room>> findAll() async {
+    final db = await instance.database;
+    final maps = await db.query(tableName, columns: FieldNames.values);
+
+    return maps.map((e) => Room.fromJson(e)).toList();
   }
 
   Future close() async {

@@ -2,6 +2,7 @@ const String tableName = "messages";
 
 class FieldNames {
   static const id = "_id";
+  static const roomId = "room_id";
   static const message = "message";
   static const sequence = "sequence";
   static const sender = "sender";
@@ -10,6 +11,7 @@ class FieldNames {
 
   static const List<String> values = [
     id,
+    roomId,
     message,
     sequence,
     sender,
@@ -20,6 +22,7 @@ class FieldNames {
 
 class Message {
   final int? id;
+  final int roomId;
   final String message;
   final int sequence;
   final int sender;
@@ -28,6 +31,7 @@ class Message {
 
   const Message(
       {this.id,
+      required this.roomId,
       required this.message,
       required this.sequence,
       required this.sender,
@@ -36,6 +40,7 @@ class Message {
 
   Message copy(
           {int? id,
+          int? roomId,
           String? message,
           int? sequence,
           int? sender,
@@ -43,6 +48,7 @@ class Message {
           DateTime? sentDate}) =>
       Message(
           id: id ?? this.id,
+          roomId: roomId ?? this.roomId,
           message: message ?? this.message,
           sequence: sequence ?? this.sequence,
           sender: sender ?? this.sender,
@@ -51,18 +57,20 @@ class Message {
 
   Map<String, Object?> toJson() => {
         FieldNames.id: id,
+        FieldNames.roomId: roomId,
         FieldNames.message: message,
         FieldNames.sender: sender,
         FieldNames.sequence: sequence,
         FieldNames.status: status,
-        FieldNames.sentDate: sentDate
+        FieldNames.sentDate: sentDate.toIso8601String()
       };
 
   static Message fromJson(Map<String, Object?> json) => Message(
       id: json[FieldNames.id] as int,
+      roomId: json[FieldNames.roomId] as int,
       message: json[FieldNames.message] as String,
       sequence: json[FieldNames.sequence] as int,
       sender: json[FieldNames.sender] as int,
       status: json[FieldNames.status] as int,
-      sentDate: json[FieldNames.sentDate] as DateTime);
+      sentDate: DateTime.parse(json[FieldNames.sentDate] as String));
 }

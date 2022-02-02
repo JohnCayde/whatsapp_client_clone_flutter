@@ -12,7 +12,7 @@ class MemberDb {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('message.db');
+    _database = await _initDB('members.db');
     return _database!;
   }
 
@@ -33,7 +33,7 @@ class MemberDb {
         ${FieldNames.id} $idType, 
         ${FieldNames.roomId} $integerType, 
         ${FieldNames.memberId} $integerType, 
-        ${FieldNames.status} $integerType ''');
+        ${FieldNames.status} $integerType )''');
   }
 
   Future<Member> create(Member member) async {
@@ -56,6 +56,16 @@ class MemberDb {
     } else {
       throw Exception('ID $id not found');
     }
+  }
+
+  Future<bool> isExist(int memberId) async {
+    final db = await instance.database;
+    final maps = await db.query(tableName,
+        columns: FieldNames.values,
+        where: '${FieldNames.memberId} = ? AND ${FieldNames.status} = ?',
+        whereArgs: [memberId, 2]);
+
+    return maps.isNotEmpty;
   }
 
   Future close() async {

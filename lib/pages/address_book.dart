@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:todoapp/model/friend.dart';
+import 'package:todoapp/model/member.dart';
+import 'package:todoapp/model/room.dart';
 import '../database/friend.dart';
+import '../database/room.dart';
+import '../database/member.dart';
 
 enum ContactOptionValues { inviteFriend, contact, refresh, help, unknown }
 
@@ -124,18 +128,55 @@ class _ContactState extends State<AddressBook> {
             onTap: () {},
           ),
           for (var contactMember in contactMembers)
-            ListTile(
-              leading: ClipOval(
-                child: Image.asset('assets/images/avatar.png'),
-              ),
-              title: Text(contactMember.name),
-              subtitle: Text(contactMember.description),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            )
+            MemberTile(member: contactMember)
         ],
       ),
+    );
+  }
+}
+
+class MemberTile extends StatefulWidget {
+  final Friend member;
+
+  const MemberTile({Key? key, required this.member}) : super(key: key);
+
+  @override
+  _MemberTileState createState() => _MemberTileState();
+}
+
+class _MemberTileState extends State<MemberTile> {
+  // final Friend member;
+  // _MemberTileState({required this.member});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: ClipOval(
+        child: Image.asset('assets/images/avatar.png'),
+      ),
+      title: Text(widget.member.name),
+      subtitle: Text(widget.member.description),
+      onTap: () async {
+        print("generate room");
+        print(widget.member.id);
+
+        bool isExist = await MemberDb.instance.isExist(widget.member.id!);
+        if (isExist) {
+          print("exist");
+          return Navigator.pop(context);
+        }
+
+        // Room newRoom = await RoomDb.instance.create(Room(
+        //     name: widget.member.name,
+        //     profileImage: "assets/images/avatar.png",
+        //     description: widget.member.description,
+        //     lastUpdated: DateTime.now()));
+
+        // await MemberDb.instance.create(Member(
+        //     roomId: newRoom.id!, memberId: widget.member.id!, status: 2));
+
+        return Navigator.pop(context);
+      },
     );
   }
 }

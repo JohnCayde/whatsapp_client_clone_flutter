@@ -97,67 +97,70 @@ class _TabSwitchState extends State<TabSwitch>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 4,
-        initialIndex: 1,
-        child: Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(controller: _tabController, tabs: const [
-              Tab(icon: Icon(Icons.camera_alt)),
-              Tab(text: "CHATS"),
-              Tab(text: "STATUS"),
-              Tab(text: "CALLS"),
-            ]),
-            title: const Text("WhatsApp"),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () => {},
-              ),
-              PopupMenuButton<ChatOptionValues>(
-                  onSelected: (ChatOptionValues option) {
-                    switch (option) {
-                      case ChatOptionValues.starredMessage:
-                        Navigator.of(context).pushNamed("/starred_message");
-                        break;
-                      case ChatOptionValues.statusPrivacy:
-                        Navigator.of(context).pushNamed("/status_privacy");
-                        break;
-                      case ChatOptionValues.linkedDevice:
-                        Navigator.of(context).pushNamed("/linked_device");
-                        break;
-                      case ChatOptionValues.settings:
-                        Navigator.of(context).pushNamed("/setting");
-                        break;
-                      default:
-                        Navigator.of(context).pushNamed("/error");
-                      // print(option);
-                    }
-                  },
-                  itemBuilder: (BuildContext context) =>
-                      <PopupMenuEntry<ChatOptionValues>>[
-                        for (var item in options)
-                          PopupMenuItem<ChatOptionValues>(
-                            value: item.value,
-                            child: Text(item.displayText),
-                          )
-                      ])
-            ],
-          ),
-          body: TabBarView(
-            controller: _tabController,
-            children: const [
-              Icon(Icons.directions_car),
-              ChatList(),
-              StatusList(),
-              CallList()
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.message_rounded),
-            onPressed: () {
-              Navigator.of(context).pushNamed("/contact");
-            },
-          ),
-        ));
+      length: 4,
+      initialIndex: 1,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(controller: _tabController, tabs: const [
+            Tab(icon: Icon(Icons.camera_alt)),
+            Tab(text: "CHATS"),
+            Tab(text: "STATUS"),
+            Tab(text: "CALLS"),
+          ]),
+          title: const Text("WhatsApp"),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () => {},
+            ),
+            PopupMenuButton<ChatOptionValues>(
+                onSelected: (ChatOptionValues option) {
+                  switch (option) {
+                    case ChatOptionValues.starredMessage:
+                      Navigator.of(context).pushNamed("/starred_message");
+                      break;
+                    case ChatOptionValues.statusPrivacy:
+                      Navigator.of(context).pushNamed("/status_privacy");
+                      break;
+                    case ChatOptionValues.linkedDevice:
+                      Navigator.of(context).pushNamed("/linked_device");
+                      break;
+                    case ChatOptionValues.settings:
+                      Navigator.of(context).pushNamed("/setting");
+                      break;
+                    default:
+                      Navigator.of(context).pushNamed("/error");
+                    // print(option);
+                  }
+                },
+                itemBuilder: (BuildContext context) =>
+                    <PopupMenuEntry<ChatOptionValues>>[
+                      for (var item in options)
+                        PopupMenuItem<ChatOptionValues>(
+                          value: item.value,
+                          child: Text(item.displayText),
+                        )
+                    ])
+          ],
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: const [
+            Icon(Icons.directions_car),
+            ChatList(),
+            StatusList(),
+            CallList()
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.message_rounded),
+          onPressed: () {
+            Navigator.of(context)
+                .pushNamed("/contact")
+                .then((value) => setState(() {}));
+          },
+        ),
+      ),
+    );
   }
 }
