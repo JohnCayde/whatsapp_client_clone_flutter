@@ -1,39 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/model/room.dart';
-import '../database/room.dart';
 import 'package:intl/intl.dart';
 
 class ChatList extends StatefulWidget {
-  const ChatList({Key? key}) : super(key: key);
+  final List<Room> chatRoom;
+  const ChatList({Key? key, required this.chatRoom}) : super(key: key);
 
   @override
   _ChatListState createState() => _ChatListState();
 }
 
 class _ChatListState extends State<ChatList> {
-  List<Room> chatRoom = [];
-
   @override
   void initState() {
     super.initState();
-    getChatRoom();
-  }
-
-  void getChatRoom() async {
-    List<Room> storedRoom = await RoomDb.instance.findAll();
-    print("get chat room");
-    print(storedRoom.length);
-    setState(() {
-      chatRoom = storedRoom;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: chatRoom.length,
+        itemCount: widget.chatRoom.length,
         itemBuilder: (BuildContext context, int index) {
-          return RoomTile(room: chatRoom[index]);
+          return RoomTile(room: widget.chatRoom[index]);
         });
   }
 }

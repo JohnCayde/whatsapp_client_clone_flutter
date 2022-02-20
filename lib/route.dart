@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todoapp/model/room.dart';
 import 'package:todoapp/pages/help.dart';
 import 'package:todoapp/pages/room.dart';
+import 'package:todoapp/pages/room_details.dart';
 import 'pages/home.dart';
 import 'pages/setting.dart';
 import 'pages/status_privacy.dart';
@@ -47,6 +48,8 @@ class RouteGenerator {
           return MaterialPageRoute(builder: (_) => ChatRoom(room: args));
         }
         return _errorRoute();
+      case '/room_details':
+        return MaterialPageRoute(builder: (_) => const RoomDetails());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

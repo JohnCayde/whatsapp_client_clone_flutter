@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../components/chat_list.dart';
 import '../components/call_list.dart';
 import '../components/status_list.dart';
+import 'package:todoapp/model/room.dart';
+import '../database/room.dart';
 
 class TabSwitch extends StatefulWidget {
   const TabSwitch({Key? key}) : super(key: key);
@@ -31,14 +33,7 @@ class _TabSwitchState extends State<TabSwitch>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 1;
-
-  final List<String> friends = <String>[
-    "John",
-    "Steven",
-    "Brad",
-    "Bradyden",
-    "Stevensen"
-  ];
+  late List<Room> chatRoom = [];
 
   @override
   void initState() {
@@ -64,7 +59,7 @@ class _TabSwitchState extends State<TabSwitch>
         }
       });
     });
-
+    getChatRoom();
     options = chatOptions;
   }
 
@@ -72,6 +67,13 @@ class _TabSwitchState extends State<TabSwitch>
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  void getChatRoom() async {
+    List<Room> storedRoom = await RoomDb.instance.findAll();
+    setState(() {
+      chatRoom = storedRoom;
+    });
   }
 
   List<ChatOptionsType> options = [];
@@ -145,11 +147,11 @@ class _TabSwitchState extends State<TabSwitch>
         ),
         body: TabBarView(
           controller: _tabController,
-          children: const [
-            Icon(Icons.directions_car),
-            ChatList(),
-            StatusList(),
-            CallList()
+          children: [
+            const Icon(Icons.directions_car),
+            ChatList(chatRoom: chatRoom),
+            const StatusList(),
+            const CallList()
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -157,7 +159,7 @@ class _TabSwitchState extends State<TabSwitch>
           onPressed: () {
             Navigator.of(context)
                 .pushNamed("/contact")
-                .then((value) => setState(() {}));
+                .then((value) => {getChatRoom()});
           },
         ),
       ),

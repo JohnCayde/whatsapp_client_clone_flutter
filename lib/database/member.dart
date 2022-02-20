@@ -25,7 +25,7 @@ class MemberDb {
 
   Future _createDB(Database db, int version) async {
     const idType = "INTEGER PRIMARY KEY AUTOINCREMENT";
-    const textType = "TEXT NOT NULL";
+    // const textType = "TEXT NOT NULL";
     // const boolType = "BOOLEAN NOT NULL";
     const integerType = "INTEGER NOT NULL";
 
@@ -58,6 +58,14 @@ class MemberDb {
     }
   }
 
+  Future<List<Member>> findAll() async {
+    final db = await instance.database;
+
+    final maps = await db.query(tableName, columns: FieldNames.values);
+
+    return maps.map((e) => Member.fromJson(e)).toList();
+  }
+
   Future<bool> isExist(int memberId) async {
     final db = await instance.database;
     final maps = await db.query(tableName,
@@ -66,6 +74,16 @@ class MemberDb {
         whereArgs: [memberId, 2]);
 
     return maps.isNotEmpty;
+  }
+
+  Future<List<Member>> getRoomMember(int roomId) async {
+    final db = await instance.database;
+    final maps = await db.query(tableName,
+        columns: FieldNames.values,
+        where: '${FieldNames.roomId} = ?',
+        whereArgs: [roomId]);
+
+    return maps.map((e) => Member.fromJson(e)).toList();
   }
 
   Future close() async {

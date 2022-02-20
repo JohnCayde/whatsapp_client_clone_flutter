@@ -16,7 +16,7 @@ class _CallListState extends State<CallList> {
     "Stevensen"
   ];
 
-  int _selectedIndex = 0;
+  // int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +33,9 @@ class _CallListState extends State<CallList> {
                 onPressed: () {},
                 icon: const Icon(Icons.video_camera_front_rounded)),
             onTap: () {
-              setState(() {
-                _selectedIndex = index;
-              });
+              // setState(() {
+              //   _selectedIndex = index;
+              // });
             },
           );
         });
